@@ -3,7 +3,7 @@ from collections import defaultdict
 from typing import DefaultDict, Optional, Tuple, cast
 
 from telegram.ext import BasePersistence
-from telegram.ext.utils.types import BD, CD, UD, CDCData, ConversationDict
+from telegram.ext._utils.types import BD, CD, UD, CDCData, ConversationDict
 
 from .models import BotData, CallbackData, ChatData, ConversationData, UserData
 
