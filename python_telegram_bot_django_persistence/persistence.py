@@ -12,16 +12,12 @@ class DjangoPersistence(BasePersistence[UD, CD, BD]):
     def __init__(
         self,
         namespace: str = "",
-        store_user_data: bool = True,
-        store_chat_data: bool = True,
-        store_bot_data: bool = True,
-        store_callback_data: bool = False,
+        store_data = None,
+        update_interval: int = 60
     ):
         super().__init__(
-            store_user_data=store_user_data,
-            store_chat_data=store_chat_data,
-            store_bot_data=store_bot_data,
-            store_callback_data=store_callback_data,
+            store_data=store_data,
+            update_interval=update_interval,
         )
         self._namespace = namespace
 
