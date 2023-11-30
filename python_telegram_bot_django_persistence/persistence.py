@@ -15,15 +15,15 @@ class DjangoPersistence(BasePersistence[UD, CD, BD]):
         store_data = None,
         update_interval: int = 60
     ):
-        super().__init__(
+        self._namespace = namespace
+        return super().__init__(
             store_data=store_data,
             update_interval=update_interval,
         )
-        self._namespace = namespace
 
     async def get_bot_data(self) -> BD:
         try:
-            return await BotData.objects.aget(namespace=self._namespace).data
+            return (await BotData.objects.aget(namespace=self._namespace)).data
         except BotData.DoesNotExist:
             return {}
 
@@ -49,7 +49,7 @@ class DjangoPersistence(BasePersistence[UD, CD, BD]):
         try:
             if isinstance(chat_data, dict):
                 orig_keys = set(chat_data.keys())
-                chat_data.update(await ChatData.objects.aget(namespace=self._namespace, chat_id=chat_id).data)
+                chat_data.update((await ChatData.objects.aget(namespace=self._namespace, chat_id=chat_id)).data)
                 for key in orig_keys - set(chat_data.keys()):
                     chat_data.pop(key)
         except ChatData.DoesNotExist:
@@ -73,7 +73,7 @@ class DjangoPersistence(BasePersistence[UD, CD, BD]):
         try:
             if isinstance(user_data, dict):
                 orig_keys = set(user_data.keys())
-                user_data.update(await UserData.objects.aget(namespace=self._namespace, user_id=user_id).data)
+                user_data.update((await UserData.objects.aget(namespace=self._namespace, user_id=user_id)).data)
                 for key in orig_keys - set(user_data.keys()):
                     user_data.pop(key)
         except UserData.DoesNotExist:
